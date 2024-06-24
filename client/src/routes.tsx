@@ -1,22 +1,29 @@
 import { createBrowserRouter } from "react-router-dom";
-import { ThemeModeToggle } from "./components/mode-toggle";
 
-export const routes = createBrowserRouter([
+import {
+  HomeLayout,
+  Landing,
+  Register,
+  Login,
+  DashboardLayout,
+  Error,
+} from "./pages";
+
+export const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <>
-        <h1>home</h1>
-        <ThemeModeToggle />
-      </>
-    ),
+    element: <HomeLayout />,
   },
   {
-    path: "/about",
-    element: (
-      <div>
-        <h2>about page</h2>
-      </div>
-    ),
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
   },
 ]);
