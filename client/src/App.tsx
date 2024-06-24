@@ -1,8 +1,12 @@
+import { RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "./components/theme-provider";
+import { routes } from "./routes";
+
 function App() {
   return (
-    <div className="text-3xl font-bold underline">
-      <h1>job-search</h1>
-    </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <RouterProvider router={routes} />
+    </ThemeProvider>
   );
 }
 
