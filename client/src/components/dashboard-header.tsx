@@ -1,4 +1,5 @@
 import { SmallSidebar } from "./small-sidebar";
+import { UserMenu } from "./user-menu";
 
 export const DashboardHeader = () => {
   return (
@@ -10,9 +11,7 @@ export const DashboardHeader = () => {
             My Job Submissions
           </h1>
         </div>
-        <div className="">
-          <p>user</p>
-        </div>
+        <UserMenu />
       </div>
     </header>
   );

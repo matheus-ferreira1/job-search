@@ -11,7 +11,7 @@ interface User {
 
 interface DashboardContextProps {
   user: User | null;
-  logoutUser: () => void;
+  handleLogout: () => void;
 }
 
 const DashboardContext = createContext<DashboardContextProps | undefined>(
@@ -21,12 +21,12 @@ const DashboardContext = createContext<DashboardContextProps | undefined>(
 const DashboardLayout = () => {
   const user = { name: "John Doe", role: "admin" };
 
-  const logoutUser = () => {
+  const handleLogout = () => {
     console.log("User logged out");
   };
 
   return (
-    <DashboardContext.Provider value={{ user, logoutUser }}>
+    <DashboardContext.Provider value={{ user, handleLogout }}>
       <div className="flex min-h-screen w-full">
         <LargeSidebar />
         <div className="flex-1">
@@ -38,6 +38,14 @@ const DashboardLayout = () => {
   );
 };
 
-export const useDashboardContext = () => useContext(DashboardContext);
+export const useDashboardContext = () => {
+  const context = useContext(DashboardContext);
+  if (context === undefined) {
+    throw new Error(
+      "useDashboardContext must be used within a DashboardProvider"
+    );
+  }
+  return context;
+};
 
 export default DashboardLayout;
