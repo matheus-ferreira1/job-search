@@ -5,6 +5,7 @@ import { AlignJustify } from "lucide-react";
 import { dashboardLinks } from "@/constants/dashboard-links";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -25,11 +26,13 @@ export const SmallSidebar = () => {
           <SheetTitle className="mb-6">
             <Logo />
           </SheetTitle>
-          <SheetDescription className="space-y-3">
-            {dashboardLinks.map((link) => (
+        </SheetHeader>
+        <SheetDescription className="space-y-3">
+          {dashboardLinks.map((link) => (
+            <SheetClose className="flex" key={link.path} asChild>
               <NavLink
-                key={link.path}
                 to={link.path}
+                end
                 className={({ isActive }) =>
                   [
                     "flex items-center gap-2 rounded-md px-3 py-2 font-medium border",
@@ -40,9 +43,9 @@ export const SmallSidebar = () => {
                 <link.Icon />
                 <span>{link.text}</span>
               </NavLink>
-            ))}
-          </SheetDescription>
-        </SheetHeader>
+            </SheetClose>
+          ))}
+        </SheetDescription>
       </SheetContent>
     </Sheet>
   );

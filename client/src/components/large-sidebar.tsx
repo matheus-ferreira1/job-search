@@ -9,6 +9,7 @@ export const LargeSidebar = () => {
         <NavLink
           key={link.path}
           to={link.path}
+          end
           className={({ isActive }) =>
             [
               "flex items-center gap-2 rounded-md px-3 py-2 font-medium",
