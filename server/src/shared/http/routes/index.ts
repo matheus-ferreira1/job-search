@@ -1,9 +1,9 @@
 import { Router } from "express";
 
+import { jobsRoutes } from "@modules/jobs/routes/jobs.routes.js";
+
 const routes = Router();
 
-routes.use("/users", (req, res) => {
-  return res.json({ message: "Hello World" });
-});
+routes.use("/jobs", jobsRoutes);
 
-export default routes;
+export { routes };

@@ -1,7 +1,11 @@
 import { Router } from "express";
 
-const productsRoutes = Router();
+import { getJobsController } from "../useCase/index.js";
 
-productsRoutes.get("/", (req, res) => {
-  return res.json({ message: "Hello World" });
+const jobsRoutes = Router();
+
+jobsRoutes.get("/", (req, res) => {
+  return getJobsController.handle(req, res);
 });
+
+export { jobsRoutes };

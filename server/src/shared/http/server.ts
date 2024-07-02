@@ -6,7 +6,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { errors } from "celebrate";
 
-import routes from "./routes/index.js";
+import { routes } from "./routes/index.js";
 import AppError from "@shared/errors/AppError.js";
 
 const PORT = process.env.PORT || 3001;

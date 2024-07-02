@@ -22,7 +22,6 @@ model Job {
   jobType        JobType     @default(FULL_TIME)
   jobStatus      JobStatus   @default(PENDING)
 
-
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
