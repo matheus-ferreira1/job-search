@@ -1,0 +1,4 @@
+@apiUrl = http://localhost:3000
+
+### Get all users
+GET {{apiUrl}}/api/users HTTP/1.1
