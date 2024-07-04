@@ -1,4 +1,4 @@
-import { JobRepository } from "../repository/JobRepository.js";
+import { JobRepository } from "../../repository/JobRepository.js";
 import { GetJobsController } from "./GetJobsController.js";
 import { GetJobsUsecase } from "./GetJobsUsecase.js";
 
