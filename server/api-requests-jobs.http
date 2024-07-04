@@ -13,7 +13,8 @@ Content-Type: application/json
     "company": "Facebook",
     "jobLocation": "ONSITE",
     "jobType": "FULL_TIME",
-    "jobStatus": "PENDING"
+    "jobStatus": "PENDING",
+    "userId": "ec1f45ec-664e-45ea-a8bd-a01a2d1acf8d"
 }
 
 ###

@@ -6,6 +6,7 @@ export type CreateJobDTO = {
   jobLocation: JobLocation;
   jobType: JobType;
   jobStatus: JobStatus;
+  userId: string;
 };
 
 export interface IJobRepository {

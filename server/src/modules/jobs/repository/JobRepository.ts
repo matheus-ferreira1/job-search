@@ -37,6 +37,7 @@ export class JobRepository implements IJobRepository {
     jobStatus,
     jobType,
     position,
+    userId,
   }: CreateJobDTO): Promise<Job> {
     const job = await prisma.job.create({
       data: {
@@ -45,6 +46,7 @@ export class JobRepository implements IJobRepository {
         jobStatus,
         jobType,
         position,
+        userId,
       },
     });
 

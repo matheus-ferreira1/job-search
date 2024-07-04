@@ -54,6 +54,7 @@ jobsRoutes.post(
         .messages({
           "any.only": "Invalid job status",
         }),
+      userId: Joi.string().uuid().required(),
     },
   }),
   (req, res) => {
