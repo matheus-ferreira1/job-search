@@ -2,3 +2,23 @@
 
 ### Get all users
 GET {{apiUrl}}/api/jobs HTTP/1.1
+
+### Create user
+# @name createJob
+POST {{apiUrl}}/api/jobs HTTP/1.1
+Content-Type: application/json
+
+{
+    "position": "Software Engineer NEW",
+    "company": "Google",
+    "jobLocation": "ONSITE",
+    "jobType": "FULL_TIME",
+    "jobStatus": "PENDING"
+}
+
+###
+
+@jobId = {{createJob.response.body.id}}
+
+### Get user by id
+GET {{apiUrl}}/api/jobs/{{ jobId }} HTTP/1.1

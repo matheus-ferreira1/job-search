@@ -1,6 +1,6 @@
 import { Job } from "@prisma/client";
 
-import { IJobRepository } from "./IJobRepository.js";
+import { CreateJobDTO, IJobRepository } from "./IJobRepository.js";
 import { prisma } from "@config/prisma.js";
 
 export class JobRepository implements IJobRepository {
@@ -25,6 +25,26 @@ export class JobRepository implements IJobRepository {
     const job = await prisma.job.findUnique({
       where: {
         id,
+      },
+    });
+
+    return job;
+  }
+
+  async createJob({
+    company,
+    jobLocation,
+    jobStatus,
+    jobType,
+    position,
+  }: CreateJobDTO): Promise<Job> {
+    const job = await prisma.job.create({
+      data: {
+        company,
+        jobLocation,
+        jobStatus,
+        jobType,
+        position,
       },
     });
 

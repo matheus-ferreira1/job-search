@@ -3,6 +3,7 @@ import { celebrate, Joi, Segments } from "celebrate";
 
 import { getJobsController } from "../useCases/getJobs/index.js";
 import { getJobByIdController } from "../useCases/getJobById/index.js";
+import { createJobController } from "../useCases/createJob/index.js";
 
 const jobsRoutes = Router();
 
@@ -21,5 +22,9 @@ jobsRoutes.get(
     return getJobByIdController.handle(req, res);
   }
 );
+
+jobsRoutes.post("/", (req, res) => {
+  return createJobController.handle(req, res);
+});
 
 export { jobsRoutes };
