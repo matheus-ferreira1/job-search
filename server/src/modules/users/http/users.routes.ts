@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { createUserController } from "../usecases/createUser/index.js";
 import { celebrate, Joi, Segments } from "celebrate";
+
+import { createUserController } from "../usecases/createUser/index.js";
+import { loginUserController } from "../usecases/loginUser/index.js";
 
 const userRoutes = Router();
 
@@ -28,7 +30,7 @@ userRoutes.post(
     },
   }),
   (req, res) => {
-    res.send("Hello, login!");
+    return loginUserController.handle(req, res);
   }
 );
 

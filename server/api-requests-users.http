@@ -1,0 +1,46 @@
+@apiUrl = http://localhost:3000/api/auth
+
+### Get all users
+GET {{apiUrl}} HTTP/1.1
+
+### Create user
+# @name createUser
+POST {{apiUrl}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "teste@teste.com",
+    "name": "teste",
+    "lastName": "teste",
+    "password": "teste123"
+}
+
+### Login user
+POST {{apiUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "teste@teste.com",
+    "password": "teste123"
+}
+###
+
+@userId = {{createUser.response.body.id}}
+
+### Get user by id
+GET {{apiUrl}}/{{ userId }} HTTP/1.1
+
+### Update user by id
+PUT {{apiUrl}}/{{ userId }} HTTP/1.1
+Content-Type: application/json
+
+{
+    "position": "EDITED dev",
+    "company": "Google",
+    "jobLocation": "ONSITE",
+    "jobType": "FULL_TIME",
+    "jobStatus": "INTERVIEW"
+}
+
+### Delete job by id
+DELETE {{apiUrl}}/{{ userId }} HTTP/1.1
