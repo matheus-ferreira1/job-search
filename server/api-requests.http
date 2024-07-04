@@ -1,16 +1,16 @@
 @apiUrl = http://localhost:3000
 
-### Get all users
+### Get all jobs
 GET {{apiUrl}}/api/jobs HTTP/1.1
 
-### Create user
+### Create jobs
 # @name createJob
 POST {{apiUrl}}/api/jobs HTTP/1.1
 Content-Type: application/json
 
 {
-    "position": "Software Engineer NEW",
-    "company": "Google",
+    "position": "dev",
+    "company": "Facebook",
     "jobLocation": "ONSITE",
     "jobType": "FULL_TIME",
     "jobStatus": "PENDING"
@@ -20,5 +20,20 @@ Content-Type: application/json
 
 @jobId = {{createJob.response.body.id}}
 
-### Get user by id
+### Get jobs by id
 GET {{apiUrl}}/api/jobs/{{ jobId }} HTTP/1.1
+
+### Update jobs by id
+PUT {{apiUrl}}/api/jobs/{{ jobId }} HTTP/1.1
+Content-Type: application/json
+
+{
+    "position": "EDITED dev",
+    "company": "Google",
+    "jobLocation": "ONSITE",
+    "jobType": "FULL_TIME",
+    "jobStatus": "INTERVIEW"
+}
+
+### Delete job by id
+DELETE {{apiUrl}}/api/jobs/{{ jobId }} HTTP/1.1

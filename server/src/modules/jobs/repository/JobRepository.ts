@@ -50,4 +50,32 @@ export class JobRepository implements IJobRepository {
 
     return job;
   }
+
+  async updateJob(
+    jobId: string,
+    { company, jobLocation, jobStatus, jobType, position }: CreateJobDTO
+  ): Promise<Job> {
+    const job = await prisma.job.update({
+      where: {
+        id: jobId,
+      },
+      data: {
+        company,
+        jobLocation,
+        jobStatus,
+        jobType,
+        position,
+      },
+    });
+
+    return job;
+  }
+
+  async deleteJob(jobId: string): Promise<void> {
+    await prisma.job.delete({
+      where: {
+        id: jobId,
+      },
+    });
+  }
 }
