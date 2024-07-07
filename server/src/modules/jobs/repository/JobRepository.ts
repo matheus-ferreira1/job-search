@@ -16,15 +16,20 @@ export class JobRepository implements IJobRepository {
     return JobRepository.instance;
   }
 
-  async getJobs(): Promise<Job[]> {
-    const jobs = await prisma.job.findMany();
+  async getJobs(userId: string): Promise<Job[]> {
+    const jobs = await prisma.job.findMany({
+      where: {
+        userId,
+      },
+    });
     return jobs;
   }
 
-  async getJobById(id: string): Promise<Job | null> {
+  async getJobById(id: string, userId): Promise<Job | null> {
     const job = await prisma.job.findUnique({
       where: {
         id,
+        userId,
       },
     });
 

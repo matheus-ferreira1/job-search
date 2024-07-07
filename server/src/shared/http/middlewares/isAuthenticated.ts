@@ -1,15 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import {
-  JsonWebTokenError,
-  Secret,
-  TokenExpiredError,
-  verify,
-} from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 
 import AppError from "@shared/errors/AppError.js";
 
 type JwtPayloadProps = {
-  sub: string;
+  userId: string;
+  role: string;
 };
 
 export const isAuthenticated = (
@@ -17,29 +13,31 @@ export const isAuthenticated = (
   response: Response,
   next: NextFunction
 ) => {
-  const { token } = request.cookies;
+  const { access_token: token } = request.cookies;
 
   if (!token) {
     throw new AppError("Failed to verify access token", 401);
   }
 
   try {
-    const decodedToken = verify(token, process.env.JWT_SECRET as Secret);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET as Secret);
 
-    const { sub } = decodedToken as JwtPayloadProps;
+    const { userId, role } = decodedToken as JwtPayloadProps;
 
     request.user = {
-      id: sub,
+      userId,
+      role,
     };
 
     return next();
   } catch (err) {
-    if (err instanceof TokenExpiredError) {
+    if (err.name == "TokenExpiredError") {
       throw new AppError("Access token expired", 401);
     }
-    if (err instanceof JsonWebTokenError) {
+    if (err.name == "JsonWebTokenError") {
       throw new AppError("Invalid access token", 401);
     }
+    console.log(err);
 
     throw new AppError("Failed to verify access token", 401);
   }

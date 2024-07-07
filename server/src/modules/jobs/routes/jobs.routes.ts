@@ -7,6 +7,7 @@ import { getJobByIdController } from "../useCases/getJobById/index.js";
 import { createJobController } from "../useCases/createJob/index.js";
 import { deleteJobController } from "../useCases/deleteJob/index.js";
 import { updateJobController } from "../useCases/updateJob/index.js";
+import { isAuthenticated } from "@shared/http/middlewares/isAuthenticated.js";
 
 const jobsRoutes = Router();
 
@@ -14,7 +15,7 @@ const JobLocationValues = Object.values(JobLocation);
 const JobTypeValues = Object.values(JobType);
 const JobStatusValues = Object.values(JobStatus);
 
-jobsRoutes.get("/", (req, res) => {
+jobsRoutes.get("/", isAuthenticated, (req, res) => {
   return getJobsController.handle(req, res);
 });
 
@@ -25,6 +26,7 @@ jobsRoutes.get(
       jobId: Joi.string().uuid().required(),
     }),
   }),
+  isAuthenticated,
   (req, res) => {
     return getJobByIdController.handle(req, res);
   }
@@ -54,9 +56,9 @@ jobsRoutes.post(
         .messages({
           "any.only": "Invalid job status",
         }),
-      userId: Joi.string().uuid().required(),
     },
   }),
+  isAuthenticated,
   (req, res) => {
     return createJobController.handle(req, res);
   }

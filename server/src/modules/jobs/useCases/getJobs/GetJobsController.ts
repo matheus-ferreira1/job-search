@@ -6,7 +6,9 @@ export class GetJobsController {
   constructor(private getJobsUsecase: GetJobsUsecase) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
-    const jobs = await this.getJobsUsecase.execute();
+    const { userId } = request.user;
+
+    const jobs = await this.getJobsUsecase.execute(userId);
 
     return response.status(200).json(jobs);
   }
