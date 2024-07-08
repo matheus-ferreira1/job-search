@@ -93,6 +93,7 @@ jobsRoutes.put(
         }),
     },
   }),
+  isAuthenticated,
   (req, res) => {
     return updateJobController.handle(req, res);
   }
@@ -105,6 +106,7 @@ jobsRoutes.delete(
       jobId: Joi.string().uuid().required(),
     }),
   }),
+  isAuthenticated,
   (req, res) => {
     return deleteJobController.handle(req, res);
   }

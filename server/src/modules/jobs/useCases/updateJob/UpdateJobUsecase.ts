@@ -7,9 +7,9 @@ export class UpdateJobUsecase {
 
   async execute(
     jobId: string,
-    { company, jobLocation, jobStatus, jobType, position }: CreateJobDTO
+    { company, jobLocation, jobStatus, jobType, position, userId }: CreateJobDTO
   ) {
-    const job = await this.jobRepository.getJobById(jobId);
+    const job = await this.jobRepository.getJobById(jobId, userId);
 
     if (!job) {
       throw new AppError("Job not found", 404);
@@ -21,6 +21,7 @@ export class UpdateJobUsecase {
       jobStatus,
       jobType,
       position,
+      userId,
     });
 
     return updatedJob;

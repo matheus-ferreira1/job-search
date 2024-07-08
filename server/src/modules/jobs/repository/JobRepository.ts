@@ -25,7 +25,7 @@ export class JobRepository implements IJobRepository {
     return jobs;
   }
 
-  async getJobById(id: string, userId): Promise<Job | null> {
+  async getJobById(id: string, userId: string): Promise<Job | null> {
     const job = await prisma.job.findUnique({
       where: {
         id,
@@ -60,7 +60,7 @@ export class JobRepository implements IJobRepository {
 
   async updateJob(
     jobId: string,
-    { company, jobLocation, jobStatus, jobType, position }: CreateJobDTO
+    { company, jobLocation, jobStatus, jobType, position, userId }: CreateJobDTO
   ): Promise<Job> {
     const job = await prisma.job.update({
       where: {
@@ -72,6 +72,7 @@ export class JobRepository implements IJobRepository {
         jobStatus,
         jobType,
         position,
+        userId,
       },
     });
 

@@ -19,9 +19,10 @@ export class UserRepository implements IUserRepository {
     email,
     password,
     lastName,
+    location,
   }: CreateUserDTO): Promise<User> {
     return await prisma.user.create({
-      data: { name, email, password, lastName },
+      data: { name, email, password, lastName, location },
     });
   }
 
@@ -31,5 +32,23 @@ export class UserRepository implements IUserRepository {
     });
 
     return user;
+  }
+
+  async getUserById(userId: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    return user;
+  }
+
+  async updateUser(
+    userId: string,
+    { name, lastName, email, password, location }: CreateUserDTO
+  ): Promise<User> {
+    return await prisma.user.update({
+      where: { id: userId },
+      data: { name, email, password, lastName, location },
+    });
   }
 }

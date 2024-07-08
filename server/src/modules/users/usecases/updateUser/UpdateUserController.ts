@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 
-import { CreateUserUsecase } from "./CreateUserUsecase.js";
+import { UpdateUserUsecase } from "./UpdateUserUsecase.js";
 
-export class CreateUserController {
-  constructor(private createUserUseCase: CreateUserUsecase) {}
+export class UpdateUserController {
+  constructor(private updateUserUseCase: UpdateUserUsecase) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
+    const { userId } = request.user;
     const { name, lastName, email, password, location } = request.body;
 
-    const user = await this.createUserUseCase.execute({
+    const user = await this.updateUserUseCase.execute(userId, {
       name,
       lastName,
       email,
@@ -16,10 +17,10 @@ export class CreateUserController {
       location,
     });
 
-    return response.status(201).json({
+    return response.status(200).json({
       id: user.id,
-      email: user.email,
       name: user.name,
+      email: user.email,
       lastName: user.lastName,
       location: user.location,
       role: user.role,

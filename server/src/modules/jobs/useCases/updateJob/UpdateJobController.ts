@@ -8,6 +8,7 @@ export class UpdateJobController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { jobId } = req.params;
     const { company, jobLocation, jobStatus, jobType, position } = req.body;
+    const { userId } = req.user;
 
     const updatedJob = await this.updateJobUseCase.execute(jobId, {
       company,
@@ -15,6 +16,7 @@ export class UpdateJobController {
       jobStatus,
       jobType,
       position,
+      userId,
     });
 
     return res.status(200).json(updatedJob);

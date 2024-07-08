@@ -7,7 +7,7 @@ import AppError from "@shared/errors/AppError.js";
 export class CreateUserUsecase {
   constructor(private userRepository: UserRepository) {}
 
-  async execute({ email, lastName, name, password }: CreateUserDTO) {
+  async execute({ email, lastName, name, password, location }: CreateUserDTO) {
     const userAlreadyExists = await this.userRepository.findUserByEmail(email);
 
     if (userAlreadyExists) {
@@ -21,6 +21,7 @@ export class CreateUserUsecase {
       email,
       lastName,
       name,
+      location,
       password: hashedPassword,
     });
 
