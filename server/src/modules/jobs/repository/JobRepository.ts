@@ -86,4 +86,8 @@ export class JobRepository implements IJobRepository {
       },
     });
   }
+
+  async countJobs(): Promise<number> {
+    return await prisma.job.count();
+  }
 }

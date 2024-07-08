@@ -3,6 +3,7 @@ import { celebrate, Joi, Segments } from "celebrate";
 
 import { getCurrentUserController } from "../usecases/getCurrentUser/index.js";
 import { updateUserController } from "../usecases/updateUser/index.js";
+import { getApplicationStatsController } from "../usecases/getApplicationStats/index.js";
 
 const userRoutes = Router();
 
@@ -27,5 +28,9 @@ userRoutes.put(
     return updateUserController.handle(req, res);
   }
 );
+
+userRoutes.get("/admin/app-stats", (req, res) => {
+  return getApplicationStatsController.handle(req, res);
+});
 
 export { userRoutes };

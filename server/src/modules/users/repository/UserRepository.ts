@@ -51,4 +51,8 @@ export class UserRepository implements IUserRepository {
       data: { name, email, password, lastName, location },
     });
   }
+
+  async countUsers(): Promise<number> {
+    return await prisma.user.count();
+  }
 }

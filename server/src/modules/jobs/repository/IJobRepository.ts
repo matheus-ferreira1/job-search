@@ -15,4 +15,5 @@ export interface IJobRepository {
   createJob(data: CreateJobDTO): Promise<Job>;
   updateJob(jobId: string, data: CreateJobDTO): Promise<Job>;
   deleteJob(jobId: string): Promise<void>;
+  countJobs(): Promise<number>;
 }

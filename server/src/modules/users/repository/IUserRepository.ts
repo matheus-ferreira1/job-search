@@ -13,4 +13,5 @@ export type IUserRepository = {
   findUserByEmail(email: string): Promise<User | null>;
   createUser(data: CreateUserDTO): Promise<User>;
   updateUser(userId: string, data: CreateUserDTO): Promise<User>;
+  countUsers(): Promise<number>;
 };
