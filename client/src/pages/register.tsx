@@ -15,6 +15,7 @@ import { Header } from "@/components/header";
 import { FormInput } from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
@@ -25,7 +26,10 @@ export const action: ActionFunction = async ({ request }) => {
     toast.success("User registered successfull. Please log in.");
 
     return redirect("/login");
-  } catch (err) {
+  } catch (err: unknown) {
+    // @ts-expect-error catching error
+    toast.error(err.response.data.message);
+
     return err;
   }
 };
