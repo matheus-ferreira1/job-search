@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext } from "react";
+import { FC, createContext, useContext } from "react";
 import {
   LoaderFunction,
   Outlet,
@@ -7,26 +7,12 @@ import {
   useLoaderData,
   useNavigate,
 } from "react-router-dom";
+import { toast } from "sonner";
 
 import { api } from "@/lib/axios";
 
 import { DashboardHeader } from "@/components/dashboard-header";
 import { LargeSidebar } from "@/components/large-sidebar";
-import { toast } from "sonner";
-
-interface User {
-  id: string;
-  name: string;
-  lastName: string;
-  email: string;
-  role: string;
-  location: string;
-}
-
-interface DashboardContextProps {
-  user: User | null;
-  handleLogout: () => void;
-}
 
 export const loader: LoaderFunction = async () => {
   try {
@@ -41,43 +27,18 @@ export const loader: LoaderFunction = async () => {
   }
 };
 
-const DashboardContext = createContext<DashboardContextProps | undefined>(
-  undefined
-);
-
-const DashboardLayout = () => {
-  const navigate = useNavigate();
-  const { email, id, lastName, location, name, role } = useLoaderData() as User;
-  const user = { email, id, lastName, location, name, role };
-
-  const handleLogout = async () => {
-    await api.get("/auth/logout");
-    navigate("/");
-    toast.success("User logged out");
-    console.log("User logged out");
-  };
-
+const DashboardLayout: FC = () => {
   return (
-    <DashboardContext.Provider value={{ user, handleLogout }}>
+    <AuthProvider>
       <div className="flex min-h-screen w-full">
         <LargeSidebar />
         <div className="flex-1">
           <DashboardHeader />
-          <Outlet context={{ user }} />
+          <Outlet />
         </div>
       </div>
-    </DashboardContext.Provider>
+    </AuthProvider>
   );
-};
-
-export const useDashboardContext = () => {
-  const context = useContext(DashboardContext);
-  if (context === undefined) {
-    throw new Error(
-      "useDashboardContext must be used within a DashboardProvider"
-    );
-  }
-  return context;
 };
 
 export default DashboardLayout;
