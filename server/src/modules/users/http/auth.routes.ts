@@ -15,6 +15,7 @@ authRoutes.post(
       name: Joi.string().required(),
       lastName: Joi.string().required(),
       password: Joi.string().required(),
+      location: Joi.string().optional(),
     },
   }),
   (req, res) => {

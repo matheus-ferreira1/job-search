@@ -1,11 +1,39 @@
-import { Link } from "react-router-dom";
+import {
+  Form,
+  Link,
+  useNavigation,
+  ActionFunction,
+  redirect,
+} from "react-router-dom";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+
+import { api } from "@/lib/axios";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { FormInput } from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+
+  try {
+    await api.post("/auth/register", data);
+
+    toast("User registered successfull. Please log in.");
+
+    return redirect("/login");
+  } catch (err) {
+    return err;
+  }
+};
+
 const Register = () => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <Header />
@@ -18,16 +46,20 @@ const Register = () => {
                 Create an account to manage your job submissions.
               </p>
             </div>
-            <form className="space-y-4">
-              <FormInput type="text" name="Name" />
+            <Form method="post" className="space-y-4">
+              <FormInput type="text" name="name" labelText="Name" />
               <FormInput type="text" name="lastName" labelText="Last name" />
-              <FormInput type="text" name="Location" />
-              <FormInput type="email" name="Email" />
-              <FormInput type="password" name="Password" />
-              <Button type="submit" className="w-full">
-                Register
+              <FormInput type="text" name="location" labelText="Location" />
+              <FormInput type="email" name="email" labelText="E-mail" />
+              <FormInput type="password" name="password" labelText="Password" />
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Register"
+                )}
               </Button>
-            </form>
+            </Form>
             <div className="text-center text-muted-foreground">
               Already have an account?{" "}
               <Link to="/login" className="underline">

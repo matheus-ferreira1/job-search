@@ -14,6 +14,8 @@ import {
   Admin,
 } from "./pages";
 
+import { action as registerAction } from "./pages/register";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +29,7 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+        action: registerAction,
       },
       {
         path: "login",
