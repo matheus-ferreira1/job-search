@@ -1,11 +1,42 @@
-import { Link } from "react-router-dom";
+import {
+  ActionFunction,
+  Form,
+  Link,
+  redirect,
+  useNavigation,
+} from "react-router-dom";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+
+import { api } from "@/lib/axios";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { FormInput } from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+
+  try {
+    await api.post("/auth/login", data);
+
+    toast.success("User registered successfull. Please log in.");
+
+    return redirect("/dashboard");
+  } catch (err: unknown) {
+    // @ts-expect-error catching error
+    toast.error(err.response.data.message);
+
+    return err;
+  }
+};
+
 const Login = () => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <Header />
@@ -18,13 +49,13 @@ const Login = () => {
                 Sign in to manage your job submissions.
               </p>
             </div>
-            <form className="space-y-4">
-              <FormInput type="email" name="Email" />
-              <FormInput type="password" name="Password" />
-              <Button type="submit" className="w-full">
-                Login
+            <Form method="post" className="space-y-4">
+              <FormInput type="email" name="email" labelText="E-mail" />
+              <FormInput type="password" name="password" labelText="Password" />
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? <Loader2 className="animate-spin" /> : "Login"}
               </Button>
-            </form>
+            </Form>
             <div className="text-center text-muted-foreground">
               Don't have an account?{" "}
               <Link to="/register" className="underline">

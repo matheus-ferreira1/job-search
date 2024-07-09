@@ -22,7 +22,7 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     await api.post("/auth/register", data);
 
-    toast("User registered successfull. Please log in.");
+    toast.success("User registered successfull. Please log in.");
 
     return redirect("/login");
   } catch (err) {
