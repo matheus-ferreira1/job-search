@@ -1,12 +1,26 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext } from "react";
-import { Outlet } from "react-router-dom";
+import {
+  LoaderFunction,
+  Outlet,
+  redirect,
+  useLoaderData,
+  useNavigate,
+} from "react-router-dom";
+
+import { api } from "@/lib/axios";
 
 import { DashboardHeader } from "@/components/dashboard-header";
 import { LargeSidebar } from "@/components/large-sidebar";
+import { toast } from "sonner";
 
 interface User {
+  id: string;
   name: string;
+  lastName: string;
+  email: string;
   role: string;
+  location: string;
 }
 
 interface DashboardContextProps {
@@ -14,14 +28,32 @@ interface DashboardContextProps {
   handleLogout: () => void;
 }
 
+export const loader: LoaderFunction = async () => {
+  try {
+    const { data } = await api.get("/users/current-user");
+
+    return data;
+  } catch (err) {
+    console.log(err);
+    // @ts-expect-error catching error
+    toast.error(err.response.data.message);
+    return redirect("/");
+  }
+};
+
 const DashboardContext = createContext<DashboardContextProps | undefined>(
   undefined
 );
 
 const DashboardLayout = () => {
-  const user = { name: "John Doe", role: "admin" };
+  const navigate = useNavigate();
+  const { email, id, lastName, location, name, role } = useLoaderData() as User;
+  const user = { email, id, lastName, location, name, role };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await api.get("/auth/logout");
+    navigate("/");
+    toast.success("User logged out");
     console.log("User logged out");
   };
 
@@ -31,7 +63,7 @@ const DashboardLayout = () => {
         <LargeSidebar />
         <div className="flex-1">
           <DashboardHeader />
-          <Outlet />
+          <Outlet context={{ user }} />
         </div>
       </div>
     </DashboardContext.Provider>

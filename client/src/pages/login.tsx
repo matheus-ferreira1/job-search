@@ -23,7 +23,7 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     await api.post("/auth/login", data);
 
-    toast.success("User registered successfull. Please log in.");
+    toast.success("User logged in successfully.");
 
     return redirect("/dashboard");
   } catch (err: unknown) {
