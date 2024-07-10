@@ -1,15 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
-import { FC, createContext, useContext } from "react";
-import {
-  LoaderFunction,
-  Outlet,
-  redirect,
-  useLoaderData,
-  useNavigate,
-} from "react-router-dom";
+import { FC } from "react";
+import { LoaderFunction, Outlet, redirect } from "react-router-dom";
 import { toast } from "sonner";
 
 import { api } from "@/lib/axios";
+import { AuthProvider } from "@/contexts/auth-context";
 
 import { DashboardHeader } from "@/components/dashboard-header";
 import { LargeSidebar } from "@/components/large-sidebar";
@@ -17,6 +12,7 @@ import { LargeSidebar } from "@/components/large-sidebar";
 export const loader: LoaderFunction = async () => {
   try {
     const { data } = await api.get("/users/current-user");
+    console.log(data);
 
     return data;
   } catch (err) {

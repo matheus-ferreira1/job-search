@@ -10,15 +10,10 @@ interface User {
   location: string;
 }
 
-interface UserLoginType {
-  email: string;
-  password: string;
-}
-
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
-  login: (userData: UserLoginType) => void;
+  login: (userData: User) => void;
   logout: () => void;
 }
 
@@ -35,7 +30,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setIsAuthenticated(!!user);
   };
 
-  const logout = async () => {
+  const logout = () => {
     setIsAuthenticated(false);
     setUser(null);
   };
@@ -51,9 +46,10 @@ const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
-
-    return context;
   }
+
+  return context;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { AuthProvider, useAuth };

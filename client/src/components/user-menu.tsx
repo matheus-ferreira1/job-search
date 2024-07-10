@@ -1,5 +1,7 @@
-import { useDashboardContext } from "@/pages/layouts/dashboard-layout";
+import { useNavigate } from "react-router-dom";
 import { LogOut, User } from "lucide-react";
+
+import { useAuth } from "@/contexts/auth-context";
 
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -12,9 +14,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { api } from "@/lib/axios";
+import { toast } from "sonner";
 
 export const UserMenu = () => {
-  const { handleLogout, user } = useDashboardContext();
+  const navigate = useNavigate();
+
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await api.get("/auth/logout");
+      toast.success("User logged out");
+      logout();
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      // @ts-expect-error catching error
+      toast.error(err.response.data.message);
+    }
+  };
 
   return (
     <DropdownMenu>

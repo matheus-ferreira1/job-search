@@ -21,7 +21,7 @@ export const action: ActionFunction = async ({ request }) => {
   const data = Object.fromEntries(formData);
 
   try {
-    await api.post("/auth/login", data);
+    const { data: userData } = await api.post("/auth/login", data);
 
     toast.success("User logged in successfully.");
 
