@@ -2,19 +2,7 @@ import { FC } from "react";
 import { LoaderFunction, redirect, useLoaderData } from "react-router-dom";
 
 import { api } from "@/lib/axios";
-
-type Job = {
-  company: string;
-  createdAt: Date;
-  id: string;
-  jobLocation: string;
-  jobLocationType: string;
-  jobStatus: string;
-  jobType: string;
-  position: string;
-  updatedAt: Date;
-  userId: string;
-};
+import { JobsProvider } from "@/contexts/jobs-context";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader: LoaderFunction = async () => {
@@ -31,9 +19,7 @@ export const loader: LoaderFunction = async () => {
 };
 
 const AllJobs: FC = () => {
-  const { data } = useLoaderData() as { data: Job[] };
-
-  return <div>AllJobs</div>;
+  return <JobsProvider>AllJobs</JobsProvider>;
 };
 
 export default AllJobs;
