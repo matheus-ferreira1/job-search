@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { celebrate, Joi, Segments } from "celebrate";
-import { JobLocation, JobStatus, JobType } from "@prisma/client";
+import { JobLocationType, JobStatus, JobType } from "@prisma/client";
 
 import { getJobsController } from "../useCases/getJobs/index.js";
 import { getJobByIdController } from "../useCases/getJobById/index.js";
@@ -11,7 +11,7 @@ import { isAuthenticated } from "@shared/http/middlewares/isAuthenticated.js";
 
 const jobsRoutes = Router();
 
-const JobLocationValues = Object.values(JobLocation);
+const JobLocationTypesValues = Object.values(JobLocationType);
 const JobTypeValues = Object.values(JobType);
 const JobStatusValues = Object.values(JobStatus);
 
@@ -38,11 +38,12 @@ jobsRoutes.post(
     [Segments.BODY]: {
       position: Joi.string().required(),
       company: Joi.string().required(),
-      jobLocation: Joi.string()
-        .valid(...JobLocationValues)
+      jobLocation: Joi.optional().allow(""),
+      jobLocationType: Joi.string()
+        .valid(...JobLocationTypesValues)
         .required()
         .messages({
-          "any.only": "Invalid job location",
+          "any.only": "Invalid job location type",
         }),
       jobType: Joi.string()
         .valid(...JobTypeValues)
@@ -74,7 +75,7 @@ jobsRoutes.put(
       position: Joi.string().required(),
       company: Joi.string().required(),
       jobLocation: Joi.string()
-        .valid(...JobLocationValues)
+        .valid(...JobLocationTypesValues)
         .required()
         .messages({
           "any.only": "Invalid job location",

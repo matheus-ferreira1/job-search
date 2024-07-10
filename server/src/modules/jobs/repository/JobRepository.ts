@@ -39,6 +39,7 @@ export class JobRepository implements IJobRepository {
   async createJob({
     company,
     jobLocation,
+    jobLocationType,
     jobStatus,
     jobType,
     position,
@@ -48,6 +49,7 @@ export class JobRepository implements IJobRepository {
       data: {
         company,
         jobLocation,
+        jobLocationType,
         jobStatus,
         jobType,
         position,

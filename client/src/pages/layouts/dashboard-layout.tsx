@@ -12,7 +12,6 @@ import { LargeSidebar } from "@/components/large-sidebar";
 export const loader: LoaderFunction = async () => {
   try {
     const { data } = await api.get("/users/current-user");
-    console.log(data);
 
     return data;
   } catch (err) {
@@ -30,7 +29,9 @@ const DashboardLayout: FC = () => {
         <LargeSidebar />
         <div className="flex-1">
           <DashboardHeader />
-          <Outlet />
+          <div className="py-3 px-4 md:px-6">
+            <Outlet />
+          </div>
         </div>
       </div>
     </AuthProvider>

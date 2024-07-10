@@ -51,8 +51,18 @@ const Login = () => {
               </p>
             </div>
             <Form method="post" className="space-y-4">
-              <FormInput type="email" name="email" labelText="E-mail" />
-              <FormInput type="password" name="password" labelText="Password" />
+              <FormInput
+                type="email"
+                name="email"
+                labelText="E-mail"
+                required
+              />
+              <FormInput
+                type="password"
+                name="password"
+                labelText="Password"
+                required
+              />
               <Button type="submit" className="w-full" disabled={isSubmitting}>
                 {isSubmitting ? <Loader2 className="animate-spin" /> : "Login"}
               </Button>

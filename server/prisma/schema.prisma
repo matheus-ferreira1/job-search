@@ -31,14 +31,15 @@ enum UserRole {
 }
 
 model Job {
-  id          String      @id @default(uuid())
-  position    String
-  company     String
-  jobLocation JobLocation @default(REMOTE)
-  jobType     JobType     @default(FULL_TIME)
-  jobStatus   JobStatus   @default(PENDING)
-  user        User        @relation(fields: [userId], references: [id])
-  userId      String
+  id              String          @id @default(uuid())
+  position        String
+  company         String
+  jobLocationType JobLocationType @default(REMOTE)
+  jobLocation     String?
+  jobType         JobType         @default(FULL_TIME)
+  jobStatus       JobStatus       @default(PENDING)
+  user            User            @relation(fields: [userId], references: [id])
+  userId          String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,7 +60,7 @@ enum JobType {
   TEMPORARY
 }
 
-enum JobLocation {
+enum JobLocationType {
   REMOTE
   ONSITE
   HYBRID

@@ -51,11 +51,31 @@ const Register = () => {
               </p>
             </div>
             <Form method="post" className="space-y-4">
-              <FormInput type="text" name="name" labelText="Name" />
-              <FormInput type="text" name="lastName" labelText="Last name" />
-              <FormInput type="text" name="location" labelText="Location" />
-              <FormInput type="email" name="email" labelText="E-mail" />
-              <FormInput type="password" name="password" labelText="Password" />
+              <FormInput type="text" name="name" labelText="Name" required />
+              <FormInput
+                type="text"
+                name="lastName"
+                labelText="Last name"
+                required
+              />
+              <FormInput
+                type="text"
+                name="location"
+                labelText="Location"
+                required
+              />
+              <FormInput
+                type="email"
+                name="email"
+                labelText="E-mail"
+                required
+              />
+              <FormInput
+                type="password"
+                name="password"
+                labelText="Password"
+                required
+              />
               <Button type="submit" className="w-full" disabled={isSubmitting}>
                 {isSubmitting ? (
                   <Loader2 className="animate-spin" />

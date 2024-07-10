@@ -1,9 +1,10 @@
-import { Job, JobLocation, JobStatus, JobType } from "@prisma/client";
+import { Job, JobLocationType, JobStatus, JobType } from "@prisma/client";
 
 export type CreateJobDTO = {
   position: string;
   company: string;
-  jobLocation: JobLocation;
+  jobLocation?: string;
+  jobLocationType: JobLocationType;
   jobType: JobType;
   jobStatus: JobStatus;
   userId: string;
