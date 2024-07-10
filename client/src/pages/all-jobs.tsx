@@ -4,6 +4,9 @@ import { LoaderFunction, redirect, useLoaderData } from "react-router-dom";
 import { api } from "@/lib/axios";
 import { JobsProvider } from "@/contexts/jobs-context";
 
+import { JobsList } from "@/components/jobs-list";
+import { SearchBar } from "@/components/search-bar";
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader: LoaderFunction = async () => {
   try {
@@ -19,7 +22,12 @@ export const loader: LoaderFunction = async () => {
 };
 
 const AllJobs: FC = () => {
-  return <JobsProvider>AllJobs</JobsProvider>;
+  return (
+    <JobsProvider>
+      <SearchBar />
+      <JobsList />
+    </JobsProvider>
+  );
 };
 
 export default AllJobs;
