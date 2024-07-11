@@ -21,7 +21,7 @@ interface JobsContextType {
 const JobsContext = createContext<JobsContextType | undefined>(undefined);
 
 const JobsProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const jobs = useLoaderData() as Job[] | null;
+  const jobs = useLoaderData() as { data: Job[] | null };
 
   return (
     <JobsContext.Provider value={{ jobs }}>{children}</JobsContext.Provider>
