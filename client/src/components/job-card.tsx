@@ -4,7 +4,6 @@ import {
   CalendarDays,
   FilePen,
   MapPinned,
-  Trash2,
 } from "lucide-react";
 
 import { Job } from "@/contexts/jobs-context";
@@ -19,9 +18,10 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { StatusBadge } from "./status-badge";
 import { Link } from "react-router-dom";
+import { DeleteButton } from "./delete-button";
 
 interface JobCardProps {
   job: Job;
@@ -83,10 +83,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
           <FilePen className="size-4 mr-2" />
           Edit
         </Link>
-        <Button variant="destructive">
-          <Trash2 className="size-4 mr-2" />
-          Delete
-        </Button>
+        <DeleteButton id={id} />
       </CardFooter>
     </Card>
   );
