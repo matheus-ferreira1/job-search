@@ -12,14 +12,17 @@ import {
   AllJobs,
   Profile,
   Admin,
+  EditJob,
 } from "./pages";
 
 import { action as registerAction } from "./pages/register";
 import { action as loginAction } from "./pages/login";
 import { action as addJobAction } from "./pages/add-job";
+import { action as editJobAction } from "./pages/edit-job";
 
 import { loader as dashboardLoader } from "./pages/layouts/dashboard-layout";
 import { loader as allJobsLoader } from "./pages/all-jobs";
+import { loader as editJobLoader } from "./pages/edit-job";
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +59,12 @@ export const router = createBrowserRouter([
             path: "add-job",
             element: <AddJob />,
             action: addJobAction,
+          },
+          {
+            path: "edit-job/:id",
+            element: <EditJob />,
+            loader: editJobLoader,
+            action: editJobAction,
           },
           {
             path: "profile",

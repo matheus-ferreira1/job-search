@@ -74,11 +74,12 @@ jobsRoutes.put(
     [Segments.BODY]: {
       position: Joi.string().required(),
       company: Joi.string().required(),
-      jobLocation: Joi.string()
+      jobLocation: Joi.optional().allow(""),
+      jobLocationType: Joi.string()
         .valid(...JobLocationTypesValues)
         .required()
         .messages({
-          "any.only": "Invalid job location",
+          "any.only": "Invalid job location type",
         }),
       jobType: Joi.string()
         .valid(...JobTypeValues)

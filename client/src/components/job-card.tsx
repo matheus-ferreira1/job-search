@@ -19,8 +19,9 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { StatusBadge } from "./status-badge";
+import { Link } from "react-router-dom";
 
 interface JobCardProps {
   job: Job;
@@ -28,6 +29,7 @@ interface JobCardProps {
 
 export const JobCard: React.FC<JobCardProps> = ({ job }) => {
   const {
+    id,
     company,
     jobLocation,
     jobLocationType,
@@ -74,10 +76,13 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-end gap-2">
-        <Button variant="outline">
+        <Link
+          to={`/dashboard/edit-job/${id}`}
+          className={buttonVariants({ variant: "outline" })}
+        >
           <FilePen className="size-4 mr-2" />
           Edit
-        </Button>
+        </Link>
         <Button variant="destructive">
           <Trash2 className="size-4 mr-2" />
           Delete
