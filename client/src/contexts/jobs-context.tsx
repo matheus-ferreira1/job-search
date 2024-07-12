@@ -1,7 +1,7 @@
-import { FC, createContext, useState, useContext, ReactNode } from "react";
+import { FC, createContext, useContext, ReactNode } from "react";
 import { useLoaderData } from "react-router-dom";
 
-type Job = {
+export interface Job {
   company: string;
   createdAt: Date;
   id: string;
@@ -12,7 +12,7 @@ type Job = {
   position: string;
   updatedAt: Date;
   userId: string;
-};
+}
 
 interface JobsContextType {
   jobs: Job[] | null;
@@ -21,7 +21,7 @@ interface JobsContextType {
 const JobsContext = createContext<JobsContextType | undefined>(undefined);
 
 const JobsProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const jobs = useLoaderData() as { data: Job[] | null };
+  const jobs = useLoaderData() as Job[] | null;
 
   return (
     <JobsContext.Provider value={{ jobs }}>{children}</JobsContext.Provider>

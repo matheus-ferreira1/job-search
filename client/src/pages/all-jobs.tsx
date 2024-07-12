@@ -1,11 +1,12 @@
 import { FC } from "react";
-import { LoaderFunction, redirect, useLoaderData } from "react-router-dom";
+import { LoaderFunction, redirect } from "react-router-dom";
 
 import { api } from "@/lib/axios";
 import { JobsProvider } from "@/contexts/jobs-context";
 
 import { JobsList } from "@/components/jobs-list";
 import { SearchBar } from "@/components/search-bar";
+import { Separator } from "@/components/ui/separator";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader: LoaderFunction = async () => {
@@ -25,6 +26,7 @@ const AllJobs: FC = () => {
   return (
     <JobsProvider>
       <SearchBar />
+      <Separator className="my-4" />
       <JobsList />
     </JobsProvider>
   );
