@@ -19,8 +19,8 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { StatusBadge } from "./status-badge";
 
 interface JobCardProps {
   job: Job;
@@ -51,7 +51,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
         <Separator />
         <div className="space-y-3">
           <div className="flex items-center justify-between">
@@ -70,9 +70,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
             <CalendarDays className="size-5" />
             <span>{date.toString()}</span>
           </div>
-          <Badge className="bg-yellow-400/80 text-black px-3 py-1 font-medium">
-            {jobStatus}
-          </Badge>
+          <StatusBadge status={jobStatus} />
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-end gap-2">
