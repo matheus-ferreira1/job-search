@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import day from "dayjs";
 import {
   BriefcaseBusiness,
@@ -20,7 +21,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { buttonVariants } from "@/components/ui/button";
 import { StatusBadge } from "./status-badge";
-import { Link } from "react-router-dom";
 import { DeleteButton } from "./delete-button";
 
 interface JobCardProps {

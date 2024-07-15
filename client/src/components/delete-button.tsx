@@ -1,3 +1,6 @@
+import { Form } from "react-router-dom";
+import { Trash2 } from "lucide-react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,8 +13,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
-import { Form } from "react-router-dom";
 
 interface DeleteButtonProps {
   id: string;
@@ -30,8 +31,8 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This action cannot be undone. This will permanently delete this job
+            submission.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
