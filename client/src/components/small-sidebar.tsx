@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
-
 import { AlignJustify } from "lucide-react";
+
+import { useAuth } from "@/contexts/auth-context";
 
 import { dashboardLinks } from "@/constants/dashboard-links";
 import {
@@ -15,6 +16,13 @@ import {
 import { Logo } from "./logo";
 
 export const SmallSidebar = () => {
+  const { user } = useAuth();
+
+  const isAdmin = user?.role === "ADMIN";
+  const filteredLinks = isAdmin
+    ? dashboardLinks
+    : dashboardLinks.filter((link) => link.text !== "Admin");
+
   return (
     <Sheet>
       <SheetTrigger>
@@ -28,7 +36,7 @@ export const SmallSidebar = () => {
           </SheetTitle>
         </SheetHeader>
         <SheetDescription className="space-y-3">
-          {dashboardLinks.map((link) => (
+          {filteredLinks.map((link) => (
             <SheetClose className="flex" key={link.path} asChild>
               <NavLink
                 to={link.path}
