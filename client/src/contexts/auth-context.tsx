@@ -1,7 +1,7 @@
 import { FC, createContext, useState, useContext, ReactNode } from "react";
 import { useLoaderData } from "react-router-dom";
 
-interface User {
+export interface User {
   id: string;
   name: string;
   lastName: string;

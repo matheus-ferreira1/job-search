@@ -8,6 +8,7 @@ interface FormInputProps {
   defaultValue?: string;
   required?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  readOnly?: boolean;
 }
 
 export const FormInput: React.FC<FormInputProps> = ({
@@ -17,10 +18,11 @@ export const FormInput: React.FC<FormInputProps> = ({
   defaultValue,
   required,
   onChange,
+  readOnly = false,
 }) => {
   return (
     <div>
-      <Label htmlFor="name">{labelText || name}</Label>
+      <Label htmlFor={name}>{labelText || name}</Label>
       <Input
         type={type}
         id={name}
@@ -28,6 +30,7 @@ export const FormInput: React.FC<FormInputProps> = ({
         defaultValue={defaultValue || ""}
         onChange={onChange}
         required={required}
+        readOnly={readOnly}
       />
     </div>
   );
