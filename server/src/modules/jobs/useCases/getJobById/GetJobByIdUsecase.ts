@@ -6,7 +6,7 @@ export class GetJobByIdUsecase {
 
   async execute(jobId: string, userId: string) {
     if (!userId) {
-      throw new AppError("Failed to verify access token teste controller", 401);
+      throw new AppError("Failed to verify access token", 401);
     }
 
     const job = await this.jobRepository.getJobById(jobId, userId);

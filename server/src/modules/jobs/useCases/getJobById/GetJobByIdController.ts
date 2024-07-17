@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 
 import { GetJobByIdUsecase } from "./GetJobByIdUsecase.js";
-import AppError from "@shared/errors/AppError.js";
 
 export class GetJobByIdController {
   constructor(private getJobByIdUseCase: GetJobByIdUsecase) {}

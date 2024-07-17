@@ -1,7 +1,12 @@
 import { Job } from "@prisma/client";
 
-import { CreateJobDTO, IJobRepository } from "./IJobRepository.js";
 import { prisma } from "@config/prisma.js";
+import {
+  CreateJobDTO,
+  IJobRepository,
+  JobStatusStats,
+  MonthlyApplicationsStats,
+} from "./IJobRepository.js";
 
 export class JobRepository implements IJobRepository {
   private static instance: JobRepository;
@@ -91,5 +96,42 @@ export class JobRepository implements IJobRepository {
 
   async countJobs(): Promise<number> {
     return await prisma.job.count();
+  }
+
+  async getJobStatsByUser(userId: string): Promise<JobStatusStats[]> {
+    const jobStats = await prisma.job.groupBy({
+      by: ["jobStatus"],
+      where: {
+        userId,
+      },
+      _count: {
+        _all: true,
+      },
+    });
+
+    return jobStats.map((stat) => ({
+      jobStatus: stat.jobStatus,
+      _count: { _all: stat._count._all },
+    }));
+  }
+
+  async getMonthlyApplicationsStats(
+    userId: string
+  ): Promise<MonthlyApplicationsStats[]> {
+    const data = await prisma.$queryRaw<MonthlyApplicationsStats[]>`
+      SELECT 
+        TO_CHAR(DATE_TRUNC('month', "createdAt"), 'YYYY-MM') AS date,
+        COUNT(*) AS count
+      FROM "Job"
+      WHERE "userId" = ${userId}
+      GROUP BY DATE_TRUNC('month', "createdAt")
+      ORDER BY DATE_TRUNC('month', "createdAt") DESC
+      LIMIT 6
+    `;
+
+    return data.map((stat) => ({
+      date: stat.date,
+      count: Number(stat.count),
+    }));
   }
 }

@@ -8,6 +8,7 @@ import { createJobController } from "../useCases/createJob/index.js";
 import { deleteJobController } from "../useCases/deleteJob/index.js";
 import { updateJobController } from "../useCases/updateJob/index.js";
 import { isAuthenticated } from "@shared/http/middlewares/isAuthenticated.js";
+import { getJobStatsController } from "../useCases/getJobStats/index.js";
 
 const jobsRoutes = Router();
 
@@ -17,6 +18,10 @@ const JobStatusValues = Object.values(JobStatus);
 
 jobsRoutes.get("/", isAuthenticated, (req, res) => {
   return getJobsController.handle(req, res);
+});
+
+jobsRoutes.get("/stats", isAuthenticated, (req, res) => {
+  return getJobStatsController.handle(req, res);
 });
 
 jobsRoutes.get(

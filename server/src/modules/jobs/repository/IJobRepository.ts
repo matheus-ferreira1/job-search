@@ -10,6 +10,16 @@ export type CreateJobDTO = {
   userId: string;
 };
 
+export type JobStatusStats = {
+  jobStatus: string;
+  _count: { _all: number };
+};
+
+export type MonthlyApplicationsStats = {
+  date: string;
+  count: number;
+};
+
 export interface IJobRepository {
   getJobs(userId: string): Promise<Job[]>;
   getJobById(jobId: string, userId: string): Promise<Job | null>;
@@ -17,4 +27,8 @@ export interface IJobRepository {
   updateJob(jobId: string, data: CreateJobDTO): Promise<Job>;
   deleteJob(jobId: string): Promise<void>;
   countJobs(): Promise<number>;
+  getJobStatsByUser(userId: string): Promise<JobStatusStats[]>;
+  getMonthlyApplicationsStats(
+    userId: string
+  ): Promise<MonthlyApplicationsStats[]>;
 }
