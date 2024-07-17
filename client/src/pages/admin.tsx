@@ -4,7 +4,7 @@ import { Captions, Users } from "lucide-react";
 
 import { api } from "@/lib/axios";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StatsCard } from "@/components/stats-card";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader: LoaderFunction = async () => {
@@ -28,24 +28,8 @@ const Admin: React.FC = () => {
 
   return (
     <header className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Jobs</CardTitle>
-          <Captions className="text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{totalJobs}</div>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-          <Users className="text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{totalUsers}</div>
-        </CardContent>
-      </Card>
+      <StatsCard label="Total Jobs" value={totalJobs} icon={<Captions />} />
+      <StatsCard label="Total Users" value={totalUsers} icon={<Users />} />
     </header>
   );
 };
