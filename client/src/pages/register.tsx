@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { api } from "@/lib/axios";
+import { useAuth } from "@/contexts/auth-context";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
@@ -35,6 +36,9 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 const Register = () => {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) return redirect("/dashboard");
+
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
 
