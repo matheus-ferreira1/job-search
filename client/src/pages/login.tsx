@@ -1,7 +1,9 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   ActionFunction,
   Form,
   Link,
+  LoaderFunction,
   redirect,
   useNavigation,
 } from "react-router-dom";
@@ -9,20 +11,18 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 import { api } from "@/lib/axios";
-import { useAuth } from "@/contexts/auth-context";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { FormInput } from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
 
   try {
-    const { data: userData } = await api.post("/auth/login", data);
+    await api.post("/auth/login", data);
 
     toast.success("User logged in successfully.");
 
@@ -35,10 +35,19 @@ export const action: ActionFunction = async ({ request }) => {
   }
 };
 
-const Login = () => {
-  const { isAuthenticated } = useAuth();
-  if (isAuthenticated) return redirect("/dashboard");
+export const loader: LoaderFunction = async () => {
+  try {
+    await api.get("/users/current-user");
+    return redirect("/dashboard");
+  } catch (err) {
+    console.log(err);
+    // @ts-expect-error catching error
+    toast.error(err.response.data.message);
+    return redirect("/login");
+  }
+};
 
+const Login = () => {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
 

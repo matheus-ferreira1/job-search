@@ -15,8 +15,11 @@ import {
   EditJob,
 } from "./pages";
 
-import { action as registerAction } from "./pages/register";
-import { action as loginAction } from "./pages/login";
+import {
+  loader as registerLoader,
+  action as registerAction,
+} from "./pages/register";
+import { loader as loginLoader, action as loginAction } from "./pages/login";
 import { action as addJobAction } from "./pages/add-job";
 import { action as editJobAction } from "./pages/edit-job";
 import { action as deleteJobAction } from "./pages/delete-job";
@@ -42,11 +45,13 @@ export const router = createBrowserRouter([
         path: "register",
         element: <Register />,
         action: registerAction,
+        loader: registerLoader,
       },
       {
         path: "login",
         element: <Login />,
         action: loginAction,
+        loader: loginLoader,
       },
       {
         path: "dashboard",

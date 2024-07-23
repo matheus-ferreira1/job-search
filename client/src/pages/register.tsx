@@ -1,22 +1,22 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   Form,
   Link,
   useNavigation,
   ActionFunction,
   redirect,
+  LoaderFunction,
 } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { api } from "@/lib/axios";
-import { useAuth } from "@/contexts/auth-context";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { FormInput } from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
@@ -35,10 +35,19 @@ export const action: ActionFunction = async ({ request }) => {
   }
 };
 
-const Register = () => {
-  const { isAuthenticated } = useAuth();
-  if (isAuthenticated) return redirect("/dashboard");
+export const loader: LoaderFunction = async () => {
+  try {
+    await api.get("/users/current-user");
+    return redirect("/dashboard");
+  } catch (err) {
+    console.log(err);
+    // @ts-expect-error catching error
+    toast.error(err.response.data.message);
+    return redirect("/register");
+  }
+};
 
+const Register = () => {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
 
