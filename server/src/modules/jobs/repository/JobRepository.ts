@@ -1,4 +1,4 @@
-import { Job } from "@prisma/client";
+import { Job, JobLocationType, JobStatus, JobType } from "@prisma/client";
 
 import { prisma } from "@config/prisma.js";
 import {
@@ -25,6 +25,9 @@ export class JobRepository implements IJobRepository {
     const jobs = await prisma.job.findMany({
       where: {
         userId,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
     return jobs;
@@ -133,5 +136,72 @@ export class JobRepository implements IJobRepository {
       date: stat.date,
       count: Number(stat.count),
     }));
+  }
+
+  async getFilteredJobs({
+    userId,
+    jobStatus,
+    jobType,
+    jobLocationType,
+    searchTerm,
+    sortBy,
+  }: {
+    userId: string;
+    jobStatus?: JobStatus;
+    jobType?: JobType;
+    jobLocationType?: JobLocationType;
+    searchTerm?: string;
+    sortBy?: string;
+  }): Promise<Job[]> {
+    const where: any = {
+      userId,
+    };
+
+    if (jobStatus) {
+      where.jobStatus = jobStatus;
+    }
+
+    if (jobType) {
+      where.jobType = jobType;
+    }
+
+    if (jobLocationType) {
+      where.jobLocationType = jobLocationType;
+    }
+
+    if (searchTerm) {
+      where.position = {
+        contains: searchTerm,
+        mode: "insensitive",
+      };
+    }
+
+    let orderBy: any = [];
+
+    if (sortBy) {
+      switch (sortBy) {
+        case "newest":
+          orderBy.push({ createdAt: "desc" });
+          break;
+        case "oldest":
+          orderBy.push({ createdAt: "asc" });
+          break;
+        case "a-z":
+          orderBy.push({ position: "asc" });
+          break;
+        case "z-a":
+          orderBy.push({ position: "desc" });
+          break;
+        default:
+          break;
+      }
+    }
+
+    const jobs = await prisma.job.findMany({
+      where,
+      orderBy,
+    });
+
+    return jobs;
   }
 }

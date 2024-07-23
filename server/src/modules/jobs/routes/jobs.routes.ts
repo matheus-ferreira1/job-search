@@ -9,6 +9,7 @@ import { deleteJobController } from "../useCases/deleteJob/index.js";
 import { updateJobController } from "../useCases/updateJob/index.js";
 import { isAuthenticated } from "@shared/http/middlewares/isAuthenticated.js";
 import { getJobStatsController } from "../useCases/getJobStats/index.js";
+import { getFilteredJobsController } from "../useCases/getFilteredJobs/index.js";
 
 const jobsRoutes = Router();
 
@@ -19,6 +20,29 @@ const JobStatusValues = Object.values(JobStatus);
 jobsRoutes.get("/", isAuthenticated, (req, res) => {
   return getJobsController.handle(req, res);
 });
+
+jobsRoutes.get(
+  "/filter",
+  celebrate({
+    [Segments.QUERY]: {
+      jobStatus: Joi.string()
+        .valid(...JobStatusValues)
+        .optional(),
+      jobType: Joi.string()
+        .valid(...JobTypeValues)
+        .optional(),
+      jobLocationType: Joi.string()
+        .valid(...JobLocationTypesValues)
+        .optional(),
+      searchTerm: Joi.string().optional(),
+      sortBy: Joi.string().optional(),
+    },
+  }),
+  isAuthenticated,
+  (req, res) => {
+    return getFilteredJobsController.handle(req, res);
+  }
+);
 
 jobsRoutes.get("/stats", isAuthenticated, (req, res) => {
   return getJobStatsController.handle(req, res);

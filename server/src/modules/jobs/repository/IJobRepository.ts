@@ -31,4 +31,19 @@ export interface IJobRepository {
   getMonthlyApplicationsStats(
     userId: string
   ): Promise<MonthlyApplicationsStats[]>;
+  getFilteredJobs({
+    userId,
+    jobStatus,
+    jobType,
+    jobLocationType,
+    searchTerm,
+    sortBy,
+  }: {
+    userId: string;
+    jobStatus?: JobStatus;
+    jobType?: JobType;
+    jobLocationType?: JobLocationType;
+    searchTerm?: string;
+    sortBy?: string;
+  }): Promise<Job[]>;
 }
