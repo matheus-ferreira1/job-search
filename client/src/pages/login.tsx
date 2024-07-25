@@ -40,10 +40,7 @@ export const loader: LoaderFunction = async () => {
     await api.get("/users/current-user");
     return redirect("/dashboard");
   } catch (err) {
-    console.log(err);
-    // @ts-expect-error catching error
-    toast.error(err.response.data.message);
-    return redirect("/login");
+    return null;
   }
 };
 
