@@ -8,13 +8,14 @@ import {
   SelectValue,
 } from "./ui/select";
 
-interface FormSelectInputProps extends React.HTMLAttributes<HTMLDivElement> {
+interface FormSelectInputProps extends React.HTMLProps<HTMLSelectElement> {
   items: { label: string; value: string }[];
   type?: string;
   name: string;
   labelText?: string;
   defaultValue?: string;
   required?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export const FormSelectInput: React.FC<FormSelectInputProps> = ({

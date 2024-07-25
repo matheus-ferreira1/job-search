@@ -9,11 +9,21 @@ import { SearchBar } from "@/components/search-bar";
 import { Separator } from "@/components/ui/separator";
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
   try {
-    const response = await api.get("/jobs");
+    const params = Object.fromEntries([
+      ...new URL(request.url).searchParams.entries(),
+    ]);
 
-    return response.data;
+    if (Object.keys(params).length > 0) {
+      const response = await api.get("/jobs/filter", { params });
+
+      return response.data;
+    } else {
+      const response = await api.get("/jobs");
+
+      return response.data;
+    }
   } catch (err) {
     console.log(err);
     // @ts-expect-error catching error

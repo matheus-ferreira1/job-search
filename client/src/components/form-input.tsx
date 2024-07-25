@@ -1,7 +1,7 @@
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
-interface FormInputProps {
+interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: string;
   name: string;
   labelText?: string;
@@ -19,9 +19,11 @@ export const FormInput: React.FC<FormInputProps> = ({
   required,
   onChange,
   readOnly = false,
+  className,
+  placeholder,
 }) => {
   return (
-    <div>
+    <div className={className}>
       <Label htmlFor={name}>{labelText || name}</Label>
       <Input
         type={type}
@@ -31,6 +33,7 @@ export const FormInput: React.FC<FormInputProps> = ({
         onChange={onChange}
         required={required}
         readOnly={readOnly}
+        placeholder={placeholder}
       />
     </div>
   );
