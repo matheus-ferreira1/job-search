@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LoaderFunction, redirect } from "react-router-dom";
+import { LoaderFunction, redirect, useNavigation } from "react-router-dom";
 
 import { api } from "@/lib/axios";
 import { JobsProvider } from "@/contexts/jobs-context";
@@ -7,6 +7,7 @@ import { JobsProvider } from "@/contexts/jobs-context";
 import { JobsList } from "@/components/jobs-list";
 import { SearchBar } from "@/components/search-bar";
 import { Separator } from "@/components/ui/separator";
+import { Loader2 } from "lucide-react";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader: LoaderFunction = async ({ request }) => {
@@ -33,11 +34,20 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const AllJobs: FC = () => {
+  const navigation = useNavigation();
+  const isPageLoading = navigation.state === "loading";
+
   return (
     <JobsProvider>
       <SearchBar />
       <Separator className="my-4" />
-      <JobsList />
+      {isPageLoading ? (
+        <div className="w-full py-6">
+          <Loader2 className="animate-spin mx-auto" />
+        </div>
+      ) : (
+        <JobsList />
+      )}
     </JobsProvider>
   );
 };
