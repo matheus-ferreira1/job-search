@@ -6,13 +6,13 @@ import {
   Register,
   Login,
   DashboardLayout,
-  Error,
   AddJob,
   Stats,
   AllJobs,
   Profile,
   Admin,
   EditJob,
+  Error,
 } from "./pages";
 
 import {
@@ -30,6 +30,7 @@ import { loader as allJobsLoader } from "./pages/all-jobs";
 import { loader as editJobLoader } from "./pages/edit-job";
 import { loader as adminLoader } from "./pages/admin";
 import { loader as statsLoader } from "./pages/stats";
+import { ErrorElement } from "./components/error-element";
 
 export const router = createBrowserRouter([
   {
@@ -63,7 +64,12 @@ export const router = createBrowserRouter([
             element: <AllJobs />,
             loader: allJobsLoader,
           },
-          { path: "stats", element: <Stats />, loader: statsLoader },
+          {
+            path: "stats",
+            element: <Stats />,
+            loader: statsLoader,
+            errorElement: <ErrorElement />,
+          },
           {
             path: "add-job",
             element: <AddJob />,

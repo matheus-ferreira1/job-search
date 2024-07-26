@@ -1,5 +1,6 @@
 import { FC } from "react";
-import { LoaderFunction, redirect, useLoaderData } from "react-router-dom";
+import { LoaderFunction } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Check, Clock, FileX, User } from "lucide-react";
 
@@ -7,6 +8,7 @@ import { api } from "@/lib/axios";
 
 import { StatsCard } from "@/components/stats-card";
 import { Chart } from "@/components/chart";
+import { Loading } from "@/components/loading";
 
 type DefaultStatsTypes = {
   approved: number;
@@ -25,21 +27,31 @@ type Stats = {
   monthlyApplications: MonthlyApplicationsTypes[];
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const loader: LoaderFunction = async () => {
-  try {
+const statsQuery = {
+  queryKey: ["stats"],
+  queryFn: async () => {
     const response = await api.get("/jobs/stats");
-    return response.data;
-  } catch (err) {
-    console.log(err);
-    // @ts-expect-error catching error
-    toast.error(err.response.data.message);
-    return redirect("/dashboard");
-  }
+    return response.data as Stats;
+  },
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const loader: LoaderFunction = () => async () => {
+  const queryClient = useQueryClient();
+
+  const data = await queryClient.ensureQueryData(statsQuery);
+  console.log("loader: " + data);
+
+  return null;
 };
 
 const Stats: FC = () => {
-  const { defaultStats, monthlyApplications } = useLoaderData() as Stats;
+  const { isPending, isError, error, data: stats } = useQuery(statsQuery);
+  console.log("useQuery: " + stats);
+
+  if (isError) {
+    toast.error(error.message);
+  }
 
   return (
     <section className="space-y-8">
@@ -49,32 +61,40 @@ const Stats: FC = () => {
           Here you can see the stats of your applications.
         </p>
       </div>
-      <header className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatsCard
-          label="Approved"
-          value={defaultStats.approved}
-          icon={<Check />}
-        />
-        <StatsCard
-          label="Pending"
-          value={defaultStats.pending}
-          icon={<Clock />}
-        />
-        <StatsCard
-          label="Interview"
-          value={defaultStats.interview}
-          icon={<User />}
-        />
-        <StatsCard
-          label="Declined"
-          value={defaultStats.declined}
-          icon={<FileX />}
-        />
-      </header>
-      <div>
-        <h2 className="text-2xl font-bold">Monthly Applications</h2>
-        <Chart data={monthlyApplications} />
-      </div>
+      {isPending ? (
+        <Loading />
+      ) : stats ? (
+        <>
+          <header className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <StatsCard
+              label="Approved"
+              value={stats.defaultStats.approved}
+              icon={<Check />}
+            />
+            <StatsCard
+              label="Pending"
+              value={stats.defaultStats.pending}
+              icon={<Clock />}
+            />
+            <StatsCard
+              label="Interview"
+              value={stats.defaultStats.interview}
+              icon={<User />}
+            />
+            <StatsCard
+              label="Declined"
+              value={stats.defaultStats.declined}
+              icon={<FileX />}
+            />
+          </header>
+          <div>
+            <h2 className="text-2xl font-bold">Monthly Applications</h2>
+            <Chart data={stats.monthlyApplications} />
+          </div>
+        </>
+      ) : (
+        <p>There are no applications</p>
+      )}
     </section>
   );
 };
