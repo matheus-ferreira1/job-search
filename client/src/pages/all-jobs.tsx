@@ -7,7 +7,7 @@ import { JobsProvider } from "@/contexts/jobs-context";
 import { JobsList } from "@/components/jobs-list";
 import { SearchBar } from "@/components/search-bar";
 import { Separator } from "@/components/ui/separator";
-import { Loader2 } from "lucide-react";
+import { Loading } from "@/components/loading";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader: LoaderFunction = async ({ request }) => {
@@ -41,13 +41,7 @@ const AllJobs: FC = () => {
     <JobsProvider>
       <SearchBar />
       <Separator className="my-4" />
-      {isPageLoading ? (
-        <div className="w-full py-6">
-          <Loader2 className="animate-spin mx-auto" />
-        </div>
-      ) : (
-        <JobsList />
-      )}
+      {isPageLoading ? <Loading /> : <JobsList />}
     </JobsProvider>
   );
 };
