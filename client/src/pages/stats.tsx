@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { LoaderFunction } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { Navigate } from "react-router-dom";
 import { Check, Clock, FileX, User } from "lucide-react";
 
 import { api } from "@/lib/axios";
@@ -27,30 +27,23 @@ type Stats = {
   monthlyApplications: MonthlyApplicationsTypes[];
 };
 
-const statsQuery = {
-  queryKey: ["stats"],
-  queryFn: async () => {
-    const response = await api.get("/jobs/stats");
-    return response.data as Stats;
-  },
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const loader: LoaderFunction = () => async () => {
-  const queryClient = useQueryClient();
-
-  const data = await queryClient.ensureQueryData(statsQuery);
-  console.log("loader: " + data);
-
-  return null;
-};
-
 const Stats: FC = () => {
-  const { isPending, isError, error, data: stats } = useQuery(statsQuery);
-  console.log("useQuery: " + stats);
+  const {
+    isPending,
+    isError,
+    error,
+    data: stats,
+  } = useQuery({
+    queryKey: ["stats"],
+    queryFn: async () => {
+      const response = await api.get("/jobs/stats");
+      return response.data as Stats;
+    },
+  });
 
   if (isError) {
     toast.error(error.message);
+    return <Navigate to="/dashboard" />;
   }
 
   return (
@@ -93,7 +86,7 @@ const Stats: FC = () => {
           </div>
         </>
       ) : (
-        <p>There are no applications</p>
+        <h2 className="text-2xl font-bold">No applications found</h2>
       )}
     </section>
   );

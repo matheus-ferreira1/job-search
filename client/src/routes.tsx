@@ -29,8 +29,6 @@ import { loader as dashboardLoader } from "./pages/layouts/dashboard-layout";
 import { loader as allJobsLoader } from "./pages/all-jobs";
 import { loader as editJobLoader } from "./pages/edit-job";
 import { loader as adminLoader } from "./pages/admin";
-import { loader as statsLoader } from "./pages/stats";
-import { ErrorElement } from "./components/error-element";
 
 export const router = createBrowserRouter([
   {
@@ -67,8 +65,6 @@ export const router = createBrowserRouter([
           {
             path: "stats",
             element: <Stats />,
-            loader: statsLoader,
-            errorElement: <ErrorElement />,
           },
           {
             path: "add-job",
