@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import {
-  ActionFunction,
   Form,
   Link,
   LoaderFunction,
+  LoaderFunctionArgs,
   redirect,
   useNavigation,
 } from "react-router-dom";
@@ -16,24 +16,27 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { FormInput } from "@/components/form-input";
 import { Button } from "@/components/ui/button";
+import { QueryClient } from "@tanstack/react-query";
 
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
+export const action =
+  (queryClient: QueryClient) =>
+  async ({ request }: LoaderFunctionArgs) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
 
-  try {
-    await api.post("/auth/login", data);
+    try {
+      await api.post("/auth/login", data);
+      queryClient.invalidateQueries({ queryKey: ["current-user"] });
+      toast.success("User logged in successfully.");
 
-    toast.success("User logged in successfully.");
+      return redirect("/dashboard");
+    } catch (err: unknown) {
+      // @ts-expect-error catching error
+      toast.error(err.response.data.message);
 
-    return redirect("/dashboard");
-  } catch (err: unknown) {
-    // @ts-expect-error catching error
-    toast.error(err.response.data.message);
-
-    return err;
-  }
-};
+      return err;
+    }
+  };
 
 export const loader: LoaderFunction = async () => {
   try {

@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
-        action: loginAction,
+        action: loginAction(queryClient),
         loader: loginLoader,
       },
       {

@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { FC } from "react";
-import { Outlet, redirect } from "react-router-dom";
+import { FC, useLayoutEffect } from "react";
+import { Outlet, redirect, useNavigate } from "react-router-dom";
 import { QueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -9,6 +9,7 @@ import { AuthProvider } from "@/contexts/auth-context";
 
 import { DashboardHeader } from "@/components/dashboard-header";
 import { LargeSidebar } from "@/components/large-sidebar";
+import { isAxiosError } from "axios";
 
 const userQuery = {
   queryKey: ["current-user"],
@@ -28,6 +29,27 @@ export const loader = (queryClient: QueryClient) => async () => {
 };
 
 const DashboardLayout: FC = () => {
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    const interceptorId = api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (isAxiosError(error)) {
+          if (error.response?.status === 401) {
+            navigate("/");
+          }
+        }
+
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      api.interceptors.response.eject(interceptorId);
+    };
+  }, [navigate]);
+
   return (
     <AuthProvider>
       <div className="flex min-h-screen w-full">
