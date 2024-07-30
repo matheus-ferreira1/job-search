@@ -19,7 +19,11 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
+type AuthProviderProps = {
+  children: ReactNode;
+};
+
+const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const initialUser = useLoaderData() as User | null;
 
   const [user, setUser] = useState<User | null>(initialUser);

@@ -1,3 +1,4 @@
+import { QueryClient } from "@tanstack/react-query";
 import { createBrowserRouter } from "react-router-dom";
 
 import {
@@ -30,6 +31,14 @@ import { loader as allJobsLoader } from "./pages/all-jobs";
 import { loader as editJobLoader } from "./pages/edit-job";
 import { loader as adminLoader } from "./pages/admin";
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -55,7 +64,7 @@ export const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <DashboardLayout />,
-        loader: dashboardLoader,
+        loader: dashboardLoader(queryClient),
         children: [
           {
             index: true,
